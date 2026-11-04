@@ -1,8 +1,10 @@
 <?php
-//BACKEND AQUI
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,6 +12,7 @@
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/login.css">
 </head>
+
 <body class="login-page">
     <div class="login-card">
         <div class="login-header">
@@ -19,10 +22,10 @@
 
         <form action="seu_endpoint_login.php" method="POST">
             <div class="form-group">
-                <label for="user">Usuário</label>
-                <input type="text" id="user" name="user" placeholder="Digite seu usuário" required>
+                <label for="email">E-mail</label>
+                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
             </div>
-            
+
             <div class="form-group">
                 <label for="senha">Senha</label>
                 <input type="password" id="senha" name="senha" placeholder="••••••••" required>
@@ -32,4 +35,5 @@
         </form>
     </div>
 </body>
+
 </html>

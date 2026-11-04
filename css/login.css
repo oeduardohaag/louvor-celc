@@ -18,7 +18,6 @@
     margin-bottom: 1.25rem;
 }
 
-.login-card input[type="text"],
 .login-card input[type="email"],
 .login-card input[type="password"] {
     width: 100%;
@@ -33,7 +32,6 @@
     margin-bottom: 1.25rem;
 }
 
-.login-card input[type="text"]:focus,
 .login-card input[type="email"]:focus,
 .login-card input[type="password"]:focus {
     border-color: var(--primary-gold) !important;

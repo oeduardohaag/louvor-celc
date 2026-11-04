@@ -4,24 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Editar Membro - Louvor CELC</title>
-    <link rel="stylesheet" href="css/variables.css">
-    <link rel="stylesheet" href="css/navbar.css">
-    <link rel="stylesheet" href="css/membros.css">
-    <script src="js/membros.js"></script>
+    <link rel="stylesheet" href="../css/variables.css">
+    <link rel="stylesheet" href="../css/navbar.css">
+    <link rel="stylesheet" href="../css/membros.css">
+    <script src="../js/membros.js" defer></script>
 </head>
 <body>
 
     <nav class="navbar">
         <div class="nav-brand">
-            <a href="index.php">Louvor <strong>CELC</strong></a>
+            <a href="../index.php">Louvor <strong>CELC</strong></a>
         </div>
         <div class="nav-links">
-            <a href="index.php">Cultos</a>
-            <a href="membros.php" class="active">Membros</a>
+            <a href="../index.php">Cultos</a>
+            <a href="../membros.php" class="active">Membros</a>
         </div>
         <div class="nav-actions">
-            <a href="membros.php" class="btn btn-secondary">Voltar</a>
-            <a href="login.php" class="btn btn-danger-outline">Sair</a>
+            <a href="../membros.php" class="btn btn-secondary">Voltar</a>
+            <a href="../logout.php" class="btn btn-danger-outline">Sair</a>
         </div>
     </nav>
 
@@ -74,7 +74,7 @@
 
             <div class="form-actions" style="margin-top: 30px; display: flex; gap: 12px; border-top: 1px solid var(--border); padding-top: 20px;">
                 <button type="submit" class="btn btn-primary" style="background-color: var(--primary-gold); color: #000; padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer;">Salvar Alterações</button>
-                <a href="membros.php" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main);">Cancelar</a>
+                <a href="../membros.php" class="btn btn-secondary" style="padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main);">Cancelar</a>
             </div>
 
         </form>

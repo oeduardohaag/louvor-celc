@@ -1,17 +1,18 @@
 <?php
 // BACKEND: index.php
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Painel Principal - Louvor CELC</title>
+    
     <link rel="stylesheet" href="css/variables.css">
     <link rel="stylesheet" href="css/navbar.css">
     <link rel="stylesheet" href="css/cultos.css">
     <link rel="stylesheet" href="css/membros.css">
+    <script src="js/cultos.js" defer></script>
 </head>
 <body>
 
@@ -24,29 +25,45 @@
             <a href="membros.php">Membros</a>
         </div>
         <div class="nav-actions">
-            <a href="login.php" class="btn btn-danger-outline">Sair da Conta</a>
+            <a href="logout.php" class="btn btn-danger-outline">Sair da Conta</a>
         </div>
     </nav>
 
-    <main class="container" style="padding: 32px 20px; max-width: 1200px; margin: 0 auto;">
-        <div class="page-header" style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+    <main class="container">
+        <div class="page-header">
             <div>
-                <h2 style="font-size: 1.5rem; color: var(--text-main);">Gestão de Cultos</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Acompanhe os repertórios e a escala dos próximos cultos</p>
+                <h2>Gestão de Cultos</h2>
+                <p>Acompanhe os repertórios e a escala dos próximos cultos</p>
             </div>
-            <a href="criar_culto.php" class="btn" style="background-color: var(--primary-gold); color: #000; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Criar Novo Culto</a>
+            <a href="cultos/criar_culto.php" class="btn btn-primary">+ Criar Novo Culto</a>
         </div>
+        
+        <form id="form-filtros" class="filtros-container">
+            <input type="text" id="filtro-culto" placeholder="Buscar por nome do culto..." class="input-filtro">
+            <input type="text" id="filtro-membro" placeholder="Buscar por participante escalado..." class="input-filtro">
+            <button type="submit" class="btn btn-primary">Filtrar</button>
+            <button type="button" id="btn-limpar-filtros" class="btn btn-outline">Limpar</button>
+        </form>
 
+        <!-- Lista / Grid de Cards de Culto -->
         <div class="cultos-lista-container">
             
-            <div class="culto-card">
+            <!-- Card 1 -->
+            <div class="culto-card" 
+                 data-culto-id="1"
+                 data-nome="Culto de Celebração" 
+                 data-data="15/11/2026" 
+                 data-hora="19:00" 
+                 data-escala="João Silva (Violão), Maria Souza (Vocal)"
+                 data-repertorio='[{"nome":"Grandes Coisas","versao":"Diante do Trono","tom":"G","foto":""},{"nome":"Bondade de Deus","versao":"Isadora Pompeo","tom":"C","foto":""}]'>
+                
                 <div class="culto-card-header">
                     <span class="culto-data">Data: 15/11/2026</span>
                 </div>
 
                 <div class="culto-card-body">
                     <h3>Culto de Celebração</h3>
-                    <p style="margin-bottom: 12px;"><strong>Horário:</strong> 19:00</p>
+                    <p class="culto-horario"><strong>Horário:</strong> 19:00</p>
 
                     <div class="culto-secao-info">
                         <span class="culto-secao-titulo">Repertório:</span>
@@ -64,7 +81,7 @@
                         </ul>
                     </div>
 
-                    <div class="culto-secao-info" style="margin-top: 12px;">
+                    <div class="culto-secao-info espaco-topo">
                         <span class="culto-secao-titulo">Escala:</span>
                         <div class="culto-membros-lista">
                             <div class="membro-tag-escala">
@@ -80,19 +97,27 @@
                 </div>
 
                 <div class="culto-card-actions">
-                    <a href="excluir_culto.php?id=1" class="btn-card-action btn-excluir" onclick="return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
-                    <a href="editar_culto.php?id=1" class="btn-card-action btn-editar" title="Editar Culto">✎ Editar</a>
+                    <a href="cultos/excluir_culto.php?id=1" class="btn-card-action btn-excluir" onclick="event.stopPropagation(); return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
+                    <a href="cultos/editar_culto.php?id=1" class="btn-card-action btn-editar" onclick="event.stopPropagation();" title="Editar Culto">✎ Editar</a>
                 </div>
             </div>
 
-            <div class="culto-card">
+            <!-- Card 2 -->
+            <div class="culto-card" 
+                 data-culto-id="2"
+                 data-nome="Culto de Santa Ceia" 
+                 data-data="01/12/2026" 
+                 data-hora="18:00" 
+                 data-escala="Ana Paula (Vocal), Carlos Eduardo (Teclado)"
+                 data-repertorio='[{"nome":"Ceia e Comunhão","versao":"Coral CELC","tom":"D","foto":""}]'>
+                
                 <div class="culto-card-header">
                     <span class="culto-data">Data: 01/12/2026</span>
                 </div>
 
                 <div class="culto-card-body">
                     <h3>Culto de Santa Ceia</h3>
-                    <p style="margin-bottom: 12px;"><strong>Horário:</strong> 18:00</p>
+                    <p class="culto-horario"><strong>Horário:</strong> 18:00</p>
 
                     <div class="culto-secao-info">
                         <span class="culto-secao-titulo">Repertório:</span>
@@ -105,7 +130,7 @@
                         </ul>
                     </div>
 
-                    <div class="culto-secao-info" style="margin-top: 12px;">
+                    <div class="culto-secao-info espaco-topo">
                         <span class="culto-secao-titulo">Escala:</span>
                         <div class="culto-membros-lista">
                             <div class="membro-tag-escala">
@@ -121,19 +146,27 @@
                 </div>
 
                 <div class="culto-card-actions">
-                    <a href="excluir_culto.php?id=2" class="btn-card-action btn-excluir" onclick="return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
-                    <a href="editar_culto.php?id=2" class="btn-card-action btn-editar" title="Editar Culto">✎ Editar</a>
+                    <a href="cultos/excluir_culto.php?id=2" class="btn-card-action btn-excluir" onclick="event.stopPropagation(); return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
+                    <a href="cultos/editar_culto.php?id=2" class="btn-card-action btn-editar" onclick="event.stopPropagation();" title="Editar Culto">✎ Editar</a>
                 </div>
             </div>
 
-            <div class="culto-card">
+            <!-- Card 3 -->
+            <div class="culto-card" 
+                 data-culto-id="3"
+                 data-nome="Culto de Jovens" 
+                 data-data="05/12/2026" 
+                 data-hora="19:30" 
+                 data-escala="Lucas Mendes (Bateria), Beatriz Lima (Guitarra)"
+                 data-repertorio='[{"nome":"Ousado Amor","versao":"Isaias Saad","tom":"C","foto":""}]'>
+                
                 <div class="culto-card-header">
                     <span class="culto-data">Data: 05/12/2026</span>
                 </div>
 
                 <div class="culto-card-body">
                     <h3>Culto de Jovens</h3>
-                    <p style="margin-bottom: 12px;"><strong>Horário:</strong> 19:30</p>
+                    <p class="culto-horario"><strong>Horário:</strong> 19:30</p>
 
                     <div class="culto-secao-info">
                         <span class="culto-secao-titulo">Repertório:</span>
@@ -146,7 +179,7 @@
                         </ul>
                     </div>
 
-                    <div class="culto-secao-info" style="margin-top: 12px;">
+                    <div class="culto-secao-info espaco-topo">
                         <span class="culto-secao-titulo">Escala:</span>
                         <div class="culto-membros-lista">
                             <div class="membro-tag-escala">
@@ -162,13 +195,28 @@
                 </div>
 
                 <div class="culto-card-actions">
-                    <a href="excluir_culto.php?id=3" class="btn-card-action btn-excluir" onclick="return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
-                    <a href="editar_culto.php?id=3" class="btn-card-action btn-editar" title="Editar Culto">✎ Editar</a>
+                    <a href="cultos/excluir_culto.php?id=3" class="btn-card-action btn-excluir" onclick="event.stopPropagation(); return confirm('Deseja realmente excluir este culto?');" title="Excluir Culto">✕ Excluir</a>
+                    <a href="cultos/editar_culto.php?id=3" class="btn-card-action btn-editar" onclick="event.stopPropagation();" title="Editar Culto">✎ Editar</a>
                 </div>
             </div>
 
         </div>
     </main>
 
-</body>
-</html>
+    <div id="modal-culto" class="modal-overlay">
+        <div class="modal-content">
+            <button type="button" id="modal-btn-fechar" class="modal-close">&times;</button>
+            
+            <span id="modal-data-hora" class="modal-data-hora"></span>
+            <h2 id="modal-titulo" class="modal-titulo"></h2>
+            
+            <p class="modal-escala">
+                <strong>Equipe Escalada:</strong> <span id="modal-membros"></span>
+            </p>
+
+            <hr class="modal-divider">
+
+            <h3 class="modal-subtitulo">Repertório & Cifras</h3>
+            <div id="modal-repertorio" class="modal-repertorio-container"></div>
+        </div>
+    </div>

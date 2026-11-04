@@ -1,51 +1,109 @@
-let contadorMusicas = 1;
-
 document.addEventListener('DOMContentLoaded', function () {
-    const btnAddMusica = document.getElementById('btn-adicionar-musica');
-    const btnAddMembro = document.getElementById('btn-adicionar-membro');
+    
+    // --- LÓGICA DO MODAL DE DETALHES DO CULTO ---
+    const modal = document.getElementById('modal-culto');
+    const btnFechar = document.getElementById('modal-btn-fechar');
+    const cardsCulto = document.querySelectorAll('.culto-card');
 
-    if (btnAddMusica) {
-        btnAddMusica.addEventListener('click', function () {
-            const container = document.getElementById('container-musicas');
-            const novaLinha = document.createElement('div');
-            novaLinha.className = 'dinamico-linha';
-            novaLinha.style.cssText = "display: flex; gap: 10px; align-items: center; margin-bottom: 10px;";
-            novaLinha.innerHTML = `
-                <input type="text" name="musicas[${contadorMusicas}][nome]" placeholder="Nome da música" required style="flex: 2; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                <input type="text" name="musicas[${contadorMusicas}][versao]" placeholder="Versão (Ex: Diante do Trono)" style="flex: 2; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                <select name="musicas[${contadorMusicas}][tom]" style="flex: 1; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                    <option value="" disabled selected>Tom</option>
-                    <option value="C">C</option><option value="C#">C#</option><option value="D">D</option><option value="D#">D#</option><option value="E">E</option><option value="F">F</option><option value="F#">F#</option><option value="G">G</option><option value="G#">G#</option><option value="A">A</option><option value="A#">A#</option><option value="B">B</option><option value="Em">Em</option><option value="Am">Am</option><option value="Bm">Bm</option>
-                </select>
-                <button type="button" class="btn-remover-linha" onclick="removerLinha(this)" style="background-color: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #f87171; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-weight: 600;">✕</button>
-            `;
-            container.appendChild(novaLinha);
-            contadorMusicas++;
+    cardsCulto.forEach(card => {
+        card.addEventListener('click', function () {
+            const nome = this.dataset.nome;
+            const data = this.dataset.data;
+            const hora = this.dataset.hora;
+            const escala = this.dataset.escala;
+            const repertorio = JSON.parse(this.dataset.repertorio || '[]');
+
+            document.getElementById('modal-data-hora').textContent = `${data} às ${hora}`;
+            document.getElementById('modal-titulo').textContent = nome;
+            document.getElementById('modal-membros').textContent = escala;
+
+            const containerRepertorio = document.getElementById('modal-repertorio');
+            containerRepertorio.innerHTML = '';
+
+            if (repertorio.length === 0) {
+                containerRepertorio.innerHTML = '<p style="color: var(--text-muted);">Nenhuma música cadastrada neste culto.</p>';
+            } else {
+                repertorio.forEach(m => {
+                    let htmlFoto = '';
+                    if (m.foto) {
+                        htmlFoto = `
+                            <div class="modal-cifra-box">
+                                <span class="modal-cifra-titulo">Foto da Cifra:</span>
+                                <a href="${m.foto}" target="_blank">
+                                    <img src="${m.foto}" alt="Cifra da música ${m.nome}" class="modal-cifra-img">
+                                </a>
+                            </div>
+                        `;
+                    }
+
+                    const cardMusica = document.createElement('div');
+                    cardMusica.className = 'modal-musica-card';
+                    cardMusica.innerHTML = `
+                        <div class="modal-musica-header">
+                            <div>
+                                <strong class="modal-musica-nome">${m.nome}</strong>
+                                <span class="modal-musica-versao"> - ${m.versao || 'Versão Padrão'}</span>
+                            </div>
+                            <span class="badge-tom">Tom: ${m.tom}</span>
+                        </div>
+                        ${htmlFoto}
+                    `;
+                    containerRepertorio.appendChild(cardMusica);
+                });
+            }
+
+            modal.classList.add('ativo');
+        });
+    });
+
+    if (btnFechar) {
+        btnFechar.addEventListener('click', fecharModal);
+    }
+
+    if (modal) {
+        modal.addEventListener('click', function (e) {
+            if (e.target === modal) fecharModal();
         });
     }
 
-    if (btnAddMembro) {
-        btnAddMembro.addEventListener('click', function () {
-            const container = document.getElementById('container-membros');
-            const novaLinha = document.createElement('div');
-            novaLinha.className = 'dinamico-linha';
-            novaLinha.style.cssText = "display: flex; gap: 10px; align-items: center; margin-bottom: 10px;";
-            novaLinha.innerHTML = `
-                <select name="membros[]" style="flex: 1; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                    <option value="" disabled selected>Selecione o membro e função</option>
-                    <option value="1">João Silva - Violão</option>
-                    <option value="2">Maria Souza - Vocal</option>
-                    <option value="3">Lucas Mendes - Bateria</option>
-                    <option value="4">Carlos Eduardo - Teclado</option>
-                </select>
-                <button type="button" class="btn-remover-linha" onclick="removerLinha(this)" style="background-color: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #f87171; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-weight: 600;">✕</button>
-            `;
-            container.appendChild(novaLinha);
+    function fecharModal() {
+        modal.classList.remove('ativo');
+    }
+
+
+    // --- LÓGICA DE FILTRAGEM (FRONTEND SIMULADO) ---
+    const formFiltros = document.getElementById('form-filtros');
+    const inputCulto = document.getElementById('filtro-culto');
+    const inputMembro = document.getElementById('filtro-membro');
+    const btnLimpar = document.getElementById('btn-limpar-filtros');
+
+    if (formFiltros) {
+        formFiltros.addEventListener('submit', function (e) {
+            e.preventDefault();
+            const termoCulto = inputCulto.value.toLowerCase().trim();
+            const termoMembro = inputMembro.value.toLowerCase().trim();
+
+            cardsCulto.forEach(card => {
+                const nomeCulto = card.dataset.nome.toLowerCase();
+                const escalaMembros = card.dataset.escala.toLowerCase();
+
+                const bateCulto = !termoCulto || nomeCulto.includes(termoCulto);
+                const bateMembro = !termoMembro || escalaMembros.includes(termoMembro);
+
+                if (bateCulto && bateMembro) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        });
+    }
+
+    if (btnLimpar) {
+        btnLimpar.addEventListener('click', function () {
+            inputCulto.value = '';
+            inputMembro.value = '';
+            cardsCulto.forEach(card => card.style.display = 'block');
         });
     }
 });
-
-function removerLinha(botao) {
-    const linha = botao.parentElement;
-    linha.remove();
-}
