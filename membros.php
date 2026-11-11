@@ -1,3 +1,7 @@
+<?php
+
+$msg = $_GET['msg'] ?? '';
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -34,16 +38,22 @@
                 <p style="color: var(--text-muted); font-size: 0.9rem;">Lista de integrantes do ministério, funções e
                     instrumentos</p>
             </div>
-            <a href="membros/criar_membro.php" class="btn"
+            <a href="membros/novo_membro.php" class="btn"
                 style="background-color: var(--primary-gold); color: #000; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Cadastrar
                 Membro</a>
         </div>
+
+        <?php if ($msg === 'criado'): ?>
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                ✅ Aluno cadastrado com sucesso!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+            </div>
+        <?php endif; ?>
 
         <div class="table-container">
             <table class="styled-table">
                 <thead>
                     <tr>
-                        <th style="width: 60px; text-align: center;">Foto</th>
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Função / Instrumento</th>

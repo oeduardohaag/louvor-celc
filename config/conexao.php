@@ -4,13 +4,13 @@ $banco   = "louvor_celc";
 $usuario = "root";
 $senha   = "";
 
-$conn = new PDO(
+$pdo = new PDO(
     "mysql:host=$host;dbname=$banco;charset=utf8",
     $usuario,
     $senha
 );
 
-$conn->setAttribute(
+$pdo->setAttribute(
     PDO::ATTR_ERRMODE,
     PDO::ERRMODE_EXCEPTION
 );

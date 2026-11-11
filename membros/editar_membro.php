@@ -1,3 +1,15 @@
+<?php
+include "conexao.php";
+
+// Pega o ID da URL: editar.php?id=3
+$id = $_GET['id'];
+
+// Busca apenas o aluno com esse ID
+$sql  = "SELECT * FROM alunos WHERE id = ?";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([$id]);
+$aluno = $stmt->fetch(PDO::FETCH_ASSOC);
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
