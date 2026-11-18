@@ -4,9 +4,9 @@ include "config/conexao.php";
 $id = $_GET['id'];
 
 $sql  = "DELETE FROM cultos WHERE id = ?";
-$stmt = $conn->prepare($sql);
+$stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
 
-header("Location: index.php");
+header("Location: ../index.php");
 exit;
 ?>

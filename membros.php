@@ -1,4 +1,5 @@
 <?php
+// require "verificar_login.php";
 include "config/conexao.php";
 
 $sql = "SELECT * FROM membros ORDER BY id DESC";
@@ -27,6 +28,7 @@ $msg = $_GET['msg'] ?? '';
         <div class="nav-links">
             <a href="index.php">Cultos</a>
             <a href="membros.php" class="active">Membros</a>
+            <a href="musicas.php">Músicas</a>
         </div>
         <div class="nav-actions">
             <a href="login.php" class="btn btn-danger-outline">Sair da Conta</a>

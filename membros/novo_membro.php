@@ -124,11 +124,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </div>
 
             <div class="form-group" style="margin-bottom: 1rem;">
-                <label for="instrumento"
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Função
-                    / Instrumento Principal *</label>
-                <input type="text" id="funcao" name="funcao" value="<?= htmlspecialchars($funcao) ?>" placeholder="Baixista" required
-                    style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+                <label for="funcao" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Função / Instrumento Principal *</label>
+                <select id="<?= htmlspecialchars($funcao) ?>" name="funcao" required>
+                    <option value="">Selecione uma função</option>
+                    <option value="Vocal">Vocal</option>
+                    <option value="Violão">Violão</option>
+                    <option value="Guitarra">Guitarra</option>
+                    <option value="Teclado">Teclado</option>
+                    <option value="Baixo">Baixo</option>
+                    <option value="Bateria">Bateria</option>
+                </select>
             </div>
 
             <div class="form-actions"
