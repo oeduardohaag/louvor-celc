@@ -1,17 +1,16 @@
 <?php
-include "conexao.php";
+include "../config/conexao.php";
 
 $id    = $_POST['id'];
 $nome  = $_POST['nome'];
 $email = $_POST['email'];
-$senha = $_POST['senha'];
 $funcao = $_POST['funcao'];
 
 // WHERE id = ? garante que só atualiza o aluno certo
-$sql  = "UPDATE membros SET nome = ?, email = ?, senha = ?, funcao = ? WHERE id = ?";
+$sql  = "UPDATE membros SET nome = ?, email = ?, função = ? WHERE id = ?";
 $stmt = $pdo->prepare($sql);
-$stmt->execute([$nome, $email, $senha, $funcao, $id]);
+$stmt->execute([$nome, $email, $funcao, $id]);
 
-header("Location: index.php");
+header("Location: ../membros.php");
 exit;
 ?>

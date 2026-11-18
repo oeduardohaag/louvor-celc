@@ -2,9 +2,10 @@
 // session_start();
 require '../config/conexao.php';
 
-$erro  = null;
-$nome  = '';
-$email = '';
+$erro   = null;
+$nome   = '';
+$email  = '';
+$funcao = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome      = trim($_POST['nome'] ?? '');
@@ -21,6 +22,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "A senha deve ter pelo menos 6 caracteres.";
     } elseif ($senha !== $confirmar) {
         $erro = "As senhas não conferem.";
+    } elseif (strlen($funcao) < 6) {
+        $erro = "A função deve ter pelo menos 6 caracteres.";
     } else {
         // e-mail já cadastrado?
         $stmt = $pdo->prepare("SELECT id FROM membros WHERE email = ?");
@@ -36,7 +39,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             );
             $stmt->execute([$nome, $email, $hash, $funcao]);
 
-            header("Location: membros.php?cadastro=ok");
+            header("Location: ../membros.php?cadastro=ok");
             exit;
         }
     }

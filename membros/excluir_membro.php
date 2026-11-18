@@ -7,6 +7,6 @@ $sql  = "DELETE FROM membros WHERE id = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$id]);
 
-header("Location: membros.php");
+header("Location: ../membros.php");
 exit;
 ?>

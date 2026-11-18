@@ -1,4 +1,8 @@
 <?php
+include "config/conexao.php";
+
+$sql = "SELECT * FROM membros ORDER BY id DESC";
+$membros = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
 $msg = $_GET['msg'] ?? '';
 ?>
@@ -45,7 +49,7 @@ $msg = $_GET['msg'] ?? '';
 
         <?php if ($msg === 'criado'): ?>
             <div class="alert alert-success alert-dismissible fade show" role="alert">
-                ✅ Aluno cadastrado com sucesso!
+                ✅ Membro cadastrado com sucesso!
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
             </div>
         <?php endif; ?>
@@ -61,81 +65,24 @@ $msg = $_GET['msg'] ?? '';
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td style="text-align: center;">
-                            <div class="membro-avatar-container" style="margin: 0 auto;">
-                                <img src="uploads/joao.jpg" alt="João Silva" class="membro-avatar">
-                            </div>
-                        </td>
-                        <td>
-                            <strong style="color: var(--text-main);">João Silva</strong>
-                        </td>
-                        <td style="color: var(--text-muted);">joao.silva@email.com</td>
-                        <td>
-                            <span class="badge-instrumento">Violão</span>
-                        </td>
-                        <td style="text-align: right;">
-                            <a href="membros/editar_membro.php?id=1" class="btn-card-action btn-editar"
-                                style="padding: 6px 12px; margin-bottom: 4px; display: inline-block;">Editar</a>
-                            <a href="membros/excluir_membro.php?id=1" class="btn-card-action btn-excluir"
-                                onclick="return confirm('Deseja realmente excluir este membro?');"
-                                style="padding: 6px 12px; display: inline-block;">Excluir</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="text-align: center;">
-                            <div class="membro-avatar-container" style="margin: 0 auto;">
-                                <div class="membro-avatar-placeholder" title="Sem foto">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <strong style="color: var(--text-main);">Maria Souza</strong>
-                        </td>
-                        <td style="color: var(--text-muted);">maria.souza@email.com</td>
-                        <td>
-                            <span class="badge-instrumento">Vocal</span>
-                        </td>
-                        <td style="text-align: right;">
-                            <a href="membros/editar_membro.php?id=2" class="btn-card-action btn-editar"
-                                style="padding: 6px 12px; margin-bottom: 4px; display: inline-block;">Editar</a>
-                            <a href="membros/excluir_membro.php?id=2" class="btn-card-action btn-excluir"
-                                onclick="return confirm('Deseja realmente excluir este membro?');"
-                                style="padding: 6px 12px; display: inline-block;">Excluir</a>
-                        </td>
-                    </tr>
-
-                    <tr>
-                        <td style="text-align: center;">
-                            <div class="membro-avatar-container" style="margin: 0 auto;">
-                                <div class="membro-avatar-placeholder" title="Sem foto">
-                                    <svg viewBox="0 0 24 24">
-                                        <path
-                                            d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z" />
-                                    </svg>
-                                </div>
-                            </div>
-                        </td>
-                        <td>
-                            <strong style="color: var(--text-main);">Lucas Mendes</strong>
-                        </td>
-                        <td style="color: var(--text-muted);">lucas.mendes@email.com</td>
-                        <td>
-                            <span class="badge-instrumento">Bateria</span>
-                        </td>
-                        <td style="text-align: right;">
-                            <a href="membros/editar_membro.php?id=3" class="btn-card-action btn-editar"
-                                style="padding: 6px 12px; margin-bottom: 4px; display: inline-block;">Editar</a>
-                            <a href="membros/excluir_membro.php?id=3" class="btn-card-action btn-excluir"
-                                onclick="return confirm('Deseja realmente excluir este membro?');"
-                                style="padding: 6px 12px; display: inline-block;">Excluir</a>
-                        </td>
-                    </tr>
+                    <?php foreach ($membros as $membro): ?>
+                        <tr>
+                            <td>
+                                <strong><?= htmlspecialchars($membro['nome'])  ?></strong>
+                            </td>
+                            <td><?= htmlspecialchars($membro['email'])  ?></td>
+                            <td>
+                                <span class="badge-instrumento"><?= htmlspecialchars($membro['função'])  ?></span>
+                            </td>
+                            <td style="text-align: right;">
+                                <a href="membros/editar_membro.php?id=<?= $membro['id'] ?>" class="btn-card-action btn-editar"
+                                    style="padding: 6px 12px; margin-bottom: 4px; display: inline-block;">Editar</a>
+                                <a href="membros/excluir_membro.php?id=<?= $membro['id'] ?>" class="btn-card-action btn-excluir"
+                                    onclick="return confirm('Deseja realmente excluir este membro?');"
+                                    style="padding: 6px 12px; display: inline-block;">Excluir</a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
 
                 </tbody>
             </table>
