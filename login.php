@@ -5,8 +5,8 @@ require 'config/conexao.php';
 $erro = null;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $email = $_POST['email'];
-    $senha = $_POST['senha'];
+    $email = trim($_POST['email'] ?? '');
+    $senha = $_POST['senha'] ?? '';
 
     $stmt = $pdo->prepare("SELECT * FROM membros WHERE email = ?");
     $stmt->execute([$email]);
@@ -36,32 +36,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 
 <body class="login-page">
-    <div class="login-card">
-        <div class="login-header">
-            <h2>Louvor CELC</h2>
-            <p>Faça login para entrar na gestão do ministério</p>
-        </div>
+    <main class="login-container">
+        <section class="login-card">
+            <header class="login-header">
+                <h2 class="login-title">Louvor <strong>CELC</strong></h2>
+                <p class="login-subtitle">Faça login para entrar na gestão do ministério</p>
+            </header>
 
-        <form method="POST">
-            <div class="form-group">
-                <label for="email">E-mail</label>
-                <input type="email" id="email" name="email" placeholder="Digite seu email" required>
-            </div>
-
-            <div class="form-group">
-                <label for="senha">Senha</label>
-                <input type="password" id="senha" name="senha" placeholder="••••••••" required>
-            </div>
-
-            <?php if (isset($erro)): ?>
-                <div class="alert alert-danger">
-                    <?= $erro ?>
+            <form class="login-form" method="POST">
+                <div class="form-group">
+                    <label class="form-label" for="email">E-mail</label>
+                    <input class="form-input" type="email" id="email" name="email" placeholder="Digite seu e-mail" required>
                 </div>
-            <?php endif; ?>
 
-            <button type="submit" class="btn btn-primary">Entrar</button>
-        </form>
-    </div>
+                <div class="form-group">
+                    <label class="form-label" for="senha">Senha</label>
+                    <input class="form-input" type="password" id="senha" name="senha" placeholder="••••••••" required>
+                </div>
+
+                <?php if ($erro): ?>
+                    <div class="alert alert-danger">
+                        <?= htmlspecialchars($erro) ?>
+                    </div>
+                <?php endif; ?>
+
+                <button type="submit" class="btn btn-primary login-submit">Entrar</button>
+            </form>
+        </section>
+    </main>
 </body>
 
 </html>

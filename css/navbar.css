@@ -1,6 +1,13 @@
-/* ----------------------------------------------------
-   Estilização da Barra de Navegação (Navbar)
----------------------------------------------------- */
+:root {
+    --bg-main: #121212;
+    --surface: #1e1e1e;
+    --border: #2a2a2a;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --primary-gold: #d4af37;
+    --secondary-bronze: #a3704c;
+}
+
 .navbar {
     display: flex;
     justify-content: space-between;

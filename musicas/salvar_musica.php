@@ -1,6 +1,5 @@
 <?php
-// require "verificar_login.php";
-
+require "../auth/verificar_login.php";
 include "../config/conexao.php";
 
 // Pega os dados enviados pelo formulário (POST)
@@ -11,5 +10,5 @@ $sql  = "INSERT INTO musicas (nome, versao) VALUES (?, ?)";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$nome, $versao]);
 
-// Redireciona para a listagem
-header("Location: ../musicas.php");
+header("Location: ../musicas.php?musica=registrada");
+exit;

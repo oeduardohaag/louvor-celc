@@ -1,5 +1,5 @@
 <?php
-// session_start();
+require "../auth/verificar_login.php";
 require '../config/conexao.php';
 
 $erro   = null;
@@ -22,10 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $erro = "A senha deve ter pelo menos 6 caracteres.";
     } elseif ($senha !== $confirmar) {
         $erro = "As senhas não conferem.";
-    } elseif (strlen($funcao) < 6) {
-        $erro = "A função deve ter pelo menos 6 caracteres.";
     } else {
-        // e-mail já cadastrado?
         $stmt = $pdo->prepare("SELECT id FROM membros WHERE email = ?");
         $stmt->execute([$email]);
 
@@ -35,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $hash = password_hash($senha, PASSWORD_DEFAULT);
 
             $stmt = $pdo->prepare(
-                "INSERT INTO membros (nome, email, senha, função) VALUES (?, ?, ?, ?)"
+                "INSERT INTO membros (nome, email, senha, funcao) VALUES (?, ?, ?, ?)"
             );
             $stmt->execute([$nome, $email, $hash, $funcao]);
 
@@ -67,82 +64,69 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div class="nav-links">
             <a href="../index.php">Cultos</a>
             <a href="../membros.php" class="active">Membros</a>
+            <a href="../musicas.php">Músicas</a>
         </div>
         <div class="nav-actions">
             <a href="../membros.php" class="btn btn-secondary">Voltar</a>
-            <a href="../login.php" class="btn btn-danger-outline">Sair</a>
+            <a href="../auth/logout.php" class="btn btn-danger-outline">Sair da Conta</a>
         </div>
     </nav>
 
-    <main class="container" style="padding: 32px 20px; max-width: 650px; margin: 0 auto;">
-        <div class="page-header" style="margin-bottom: 24px;">
-            <h2 style="font-size: 1.5rem; color: var(--text-main);">Cadastrar Novo Membro</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">
-                Insira os dados do integrante, senha e defina sua função no ministério
-            </p>
+    <main class="membros-form-container">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title">Cadastrar Novo Membro</h2>
+                <p class="page-subtitle">Insira os dados do integrante, senha e defina sua função no ministério</p>
+            </div>
         </div>
 
         <?php if ($erro): ?>
-            <div>
+            <div class="alert alert-danger">
                 <?= htmlspecialchars($erro) ?>
             </div>
         <?php endif; ?>
 
-        <form method="POST" class="form-container"
-            style="background-color: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+        <form method="POST" class="form-card">
 
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Nome
-                    Completo *</label>
-                <input type="text" id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>" placeholder="Ex: João Silva" required
-                    style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+            <div class="form-group">
+                <label class="form-label" for="nome">Nome Completo *</label>
+                <input class="form-input" type="text" id="nome" name="nome" value="<?= htmlspecialchars($nome) ?>"
+                    placeholder="Ex: João Silva" required>
             </div>
 
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">E-mail
-                    *</label>
-                <input type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>" placeholder="exemplo@email.com" required
-                    style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+            <div class="form-group">
+                <label class="form-label" for="email">E-mail *</label>
+                <input class="form-input" type="email" id="email" name="email" value="<?= htmlspecialchars($email) ?>"
+                    placeholder="exemplo@email.com" required>
             </div>
 
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Senha
-                    *</label>
-                <input type="password" id="senha" name="senha" placeholder="••••••••" required
-                    style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+            <div class="form-group">
+                <label class="form-label" for="senha">Senha *</label>
+                <input class="form-input" type="password" id="senha" name="senha" placeholder="••••••••" minlength="6" required>
             </div>
 
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Confirmar senha
-                    *</label>
-                <input type="password" name="confirmar" minlength="6"
-                    placeholder="••••••••" required style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+            <div class="form-group">
+                <label class="form-label" for="confirmar">Confirmar senha *</label>
+                <input class="form-input" type="password" id="confirmar" name="confirmar" minlength="6"
+                    placeholder="••••••••" required>
             </div>
 
-            <div class="form-group" style="margin-bottom: 1rem;">
-                <label for="funcao" style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Função / Instrumento Principal *</label>
-                <select id="<?= htmlspecialchars($funcao) ?>" name="funcao" required>
+            <div class="form-group">
+                <label class="form-label" for="funcao">Função / Instrumento Principal *</label>
+                <select class="form-select" id="funcao" name="funcao" required>
                     <option value="">Selecione uma função</option>
-                    <option value="Vocal">Vocal</option>
-                    <option value="Violão">Violão</option>
-                    <option value="Guitarra">Guitarra</option>
-                    <option value="Teclado">Teclado</option>
-                    <option value="Baixo">Baixo</option>
-                    <option value="Bateria">Bateria</option>
+                    <option value="Vocal" <?= $funcao === 'Vocal' ? 'selected' : '' ?>>Vocal</option>
+                    <option value="Violão" <?= $funcao === 'Violão' ? 'selected' : '' ?>>Violão</option>
+                    <option value="Guitarra" <?= $funcao === 'Guitarra' ? 'selected' : '' ?>>Guitarra</option>
+                    <option value="Teclado" <?= $funcao === 'Teclado' ? 'selected' : '' ?>>Teclado</option>
+                    <option value="Baixo" <?= $funcao === 'Baixo' ? 'selected' : '' ?>>Baixo</option>
+                    <option value="Bateria" <?= $funcao === 'Bateria' ? 'selected' : '' ?>>Bateria</option>
                 </select>
             </div>
 
-            <div class="form-actions"
-                style="margin-top: 30px; display: flex; gap: 12px; border-top: 1px solid var(--border); padding-top: 20px;">
-                <button type="submit" class="btn btn-primary"
-                    style="background-color: var(--primary-gold); color: #000; padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer;">Cadastrar
-                    Membro</button>
-                <a href="../membros.php" class="btn btn-secondary"
-                    style="padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main);">Cancelar</a>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary-gold">Cadastrar Membro</button>
+                <a href="../membros.php" class="btn btn-cancel">Cancelar</a>
             </div>
 
         </form>

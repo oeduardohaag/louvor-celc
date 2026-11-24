@@ -1,10 +1,176 @@
+/* ----------------------------------------------------
+   Layout e Cabeçalho - Gestão de Cultos
+---------------------------------------------------- */
+.cultos-container {
+    padding: 32px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cultos-form-container {
+    padding: 32px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ----------------------------------------------------
+   Alertas
+---------------------------------------------------- */
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+}
+
+.alert-registered {
+    background-color: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #4ade80;
+}
+
+.alert-updated {
+    background-color: rgba(34, 132, 197, 0.12);
+    border: 1px solid rgba(34, 151, 197, 0.35);
+    color: #4aafde;
+}
+
+.alert-deleted {
+    background-color: rgba(197, 34, 34, 0.12);
+    border: 1px solid rgba(197, 34, 34, 0.35);
+    color: #de4a4a;
+}
+
+.alert-danger {
+    background-color: rgba(220, 38, 38, 0.12);
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    color: #f87171;
+}
+
+/* ----------------------------------------------------
+   Botões Globais da Seção
+---------------------------------------------------- */
+.btn-primary-gold {
+    background-color: var(--primary-gold, #d4af37);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.btn-primary-gold:hover {
+    opacity: 0.9;
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 10px 16px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.btn-outline:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    background-color: transparent;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ----------------------------------------------------
+   Barra de Filtros
+---------------------------------------------------- */
+.filtros-container {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 24px;
+    background-color: var(--surface);
+    padding: 16px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.input-filtro {
+    flex: 1;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease;
+}
+
+.input-filtro:focus {
+    border-color: var(--primary-gold, #d4af37);
+}
+
+/* ----------------------------------------------------
+   Grid e Cards de Culto (index.php)
+---------------------------------------------------- */
 .cultos-lista-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: 20px;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
+}
+
+.culto-empty-msg {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+    grid-column: 1 / -1;
 }
 
 .culto-card {
@@ -15,12 +181,14 @@
     border: 1px solid var(--border);
     border-radius: 8px;
     padding: 16px;
+    cursor: pointer;
     transition: border-color 0.2s ease, transform 0.2s ease;
     height: 100%;
+    box-sizing: border-box;
 }
 
 .culto-card:hover {
-    border-color: rgba(212, 175, 55, 0.4);
+    border-color: rgba(212, 175, 55, 0.45);
 }
 
 .culto-card-header {
@@ -35,15 +203,16 @@
     color: var(--text-muted);
 }
 
-.culto-card-body h3 {
+.culto-card-title {
     font-size: 1.1rem;
     color: var(--text-main);
-    margin-bottom: 6px;
+    margin: 0 0 6px 0;
 }
 
-.culto-card-body p {
+.culto-horario {
     font-size: 0.85rem;
     color: var(--text-muted);
+    margin: 0 0 12px 0;
 }
 
 .culto-secao-info {
@@ -51,6 +220,10 @@
     border: 1px solid var(--border);
     border-radius: 6px;
     padding: 10px;
+}
+
+.culto-secao-info+.culto-secao-info {
+    margin-top: 12px;
 }
 
 .culto-secao-titulo {
@@ -61,6 +234,12 @@
     color: var(--primary-gold);
     margin-bottom: 6px;
     font-weight: 600;
+}
+
+.culto-secao-vazia {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin: 0;
 }
 
 .culto-musicas-lista {
@@ -125,7 +304,7 @@
 
 .culto-card-actions {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 8px;
     margin-top: 16px;
     padding-top: 12px;
@@ -146,21 +325,12 @@
     text-align: center;
 }
 
-.btn-concluir {
-    background-color: rgba(34, 197, 94, 0.12);
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    color: #4ade80;
-}
-.btn-concluir:hover {
-    background-color: rgba(34, 197, 94, 0.25);
-    border-color: #22c55e;
-}
-
 .btn-editar {
     background-color: rgba(212, 175, 55, 0.1);
     border: 1px solid rgba(212, 175, 55, 0.3);
     color: var(--primary-gold);
 }
+
 .btn-editar:hover {
     background-color: rgba(212, 175, 55, 0.22);
     border-color: var(--primary-gold);
@@ -171,97 +341,15 @@
     border: 1px solid rgba(220, 38, 38, 0.3);
     color: #f87171;
 }
+
 .btn-excluir:hover {
     background-color: rgba(220, 38, 38, 0.25);
     border-color: #dc2626;
 }
 
-.status-badge.status-concluido {
-    background-color: rgba(34, 197, 94, 0.15);
-    color: #4ade80;
-    border: 1px solid rgba(34, 197, 94, 0.3);
-    font-size: 0.7rem;
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-weight: 600;
-}
-
-/* --- Ajustes Globais da Página de Cultos --- */
-.container {
-    padding: 32px 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-.page-header {
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.page-header h2 {
-    font-size: 1.5rem;
-    color: var(--text-main);
-}
-
-.page-header p {
-    color: var(--text-muted);
-    font-size: 0.9rem;
-}
-
-.espaco-topo {
-    margin-top: 12px;
-}
-
-.culto-horario {
-    margin-bottom: 12px;
-}
-
-/* --- Botões Utilitários --- */
-.btn-primary {
-    background-color: var(--accent, #D4AF37);
-    color: #000;
-    padding: 10px 16px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.9rem;
-    border: none;
-    cursor: pointer;
-}
-
-.btn-outline {
-    background: transparent;
-    border: 1px solid var(--border, #2C2C2C);
-    color: var(--text-muted, #A0A0A0);
-    padding: 10px 16px;
-    border-radius: 6px;
-    cursor: pointer;
-}
-
-/* --- Barra de Filtros --- */
-.filtros-container {
-    display: flex;
-    gap: 12px;
-    margin-bottom: 24px;
-    background: var(--bg-card, #1E1E1E);
-    padding: 16px;
-    border-radius: 8px;
-    border: 1px solid var(--border, #2C2C2C);
-}
-
-.input-filtro {
-    flex: 1;
-    background: var(--bg-main, #121212);
-    border: 1px solid var(--border, #2C2C2C);
-    border-radius: 6px;
-    color: var(--text-main, #FFFFFF);
-    padding: 10px 14px;
-    outline: none;
-}
-
-/* --- Modal de Cifras e Detalhes --- */
+/* ----------------------------------------------------
+   Modal de Cifras e Detalhes do Culto
+---------------------------------------------------- */
 .modal-overlay {
     display: none;
     position: fixed;
@@ -281,8 +369,8 @@
 }
 
 .modal-content {
-    background: var(--bg-card, #1E1E1E);
-    border: 1px solid var(--border, #2C2C2C);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
     width: 100%;
     max-width: 700px;
     max-height: 90vh;
@@ -298,41 +386,41 @@
     right: 20px;
     background: transparent;
     border: none;
-    color: var(--text-muted, #A0A0A0);
+    color: var(--text-muted);
     font-size: 1.5rem;
     cursor: pointer;
 }
 
 .modal-data-hora {
-    color: var(--accent, #D4AF37);
+    color: var(--primary-gold);
     font-weight: 600;
     font-size: 0.9rem;
 }
 
 .modal-titulo {
-    color: var(--text-main, #FFFFFF);
+    color: var(--text-main);
     font-size: 1.5rem;
     margin: 8px 0 15px 0;
 }
 
 .modal-escala {
-    color: var(--text-muted, #A0A0A0);
+    color: var(--text-muted);
     font-size: 0.95rem;
     margin-bottom: 20px;
 }
 
 .modal-escala strong {
-    color: var(--text-main, #FFFFFF);
+    color: var(--text-main);
 }
 
 .modal-divider {
     border: none;
-    border-top: 1px solid var(--border, #2C2C2C);
+    border-top: 1px solid var(--border);
     margin: 20px 0;
 }
 
 .modal-subtitulo {
-    color: var(--text-main, #FFFFFF);
+    color: var(--text-main);
     font-size: 1.1rem;
     margin-bottom: 15px;
 }
@@ -344,10 +432,10 @@
 }
 
 .modal-musica-card {
-    background: var(--bg-main, #121212);
+    background-color: var(--bg-main);
     padding: 14px;
     border-radius: 8px;
-    border: 1px solid var(--border, #2C2C2C);
+    border: 1px solid var(--border);
 }
 
 .modal-musica-header {
@@ -357,12 +445,12 @@
 }
 
 .modal-musica-nome {
-    color: var(--text-main, #FFFFFF);
+    color: var(--text-main);
     font-size: 1rem;
 }
 
 .modal-musica-versao {
-    color: var(--text-muted, #A0A0A0);
+    color: var(--text-muted);
     font-size: 0.85rem;
 }
 
@@ -371,7 +459,7 @@
 }
 
 .modal-cifra-titulo {
-    color: var(--text-muted, #A0A0A0);
+    color: var(--text-muted);
     font-size: 0.8rem;
     display: block;
     margin-bottom: 6px;
@@ -381,6 +469,149 @@
     max-width: 100%;
     max-height: 250px;
     border-radius: 6px;
-    border: 1px solid var(--border, #2C2C2C);
+    border: 1px solid var(--border);
     object-fit: contain;
+}
+
+/* ----------------------------------------------------
+   Formulários de Culto (Criar / Editar)
+---------------------------------------------------- */
+.form-card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
+}
+
+.form-grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.form-group {
+    margin-bottom: 1.25rem;
+}
+
+.form-label {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.form-input,
+.form-select {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus,
+.form-select:focus {
+    border-color: var(--primary-gold, #d4af37);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.form-select option {
+    background-color: var(--surface);
+    color: var(--text-main);
+}
+
+.secao-titulo-form {
+    font-size: 1rem;
+    color: var(--primary-gold);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 8px;
+    margin: 20px 0 12px 0;
+    font-weight: 600;
+}
+
+.dinamico-linha {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.select-musica {
+    flex: 3;
+}
+
+.select-tom {
+    flex: 1;
+}
+
+.select-membro {
+    flex: 1;
+}
+
+.cifra-upload-group {
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.input-file-cifra {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
+.link-cifra-atual {
+    color: var(--primary-gold);
+    font-size: 0.75rem;
+    text-decoration: none;
+}
+
+.link-cifra-atual:hover {
+    text-decoration: underline;
+}
+
+.btn-remover-linha {
+    background-color: rgba(220, 38, 38, 0.1);
+    border: 1px solid rgba(220, 38, 38, 0.3);
+    color: #f87171;
+    padding: 10px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: background-color 0.2s ease;
+}
+
+.btn-remover-linha:hover {
+    background-color: rgba(220, 38, 38, 0.25);
+}
+
+.btn-adicionar-linha {
+    margin-top: 6px;
+    font-size: 0.8rem;
+    padding: 7px 14px;
+    background-color: rgba(212, 175, 55, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: var(--primary-gold);
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.btn-adicionar-linha:hover {
+    background-color: rgba(212, 175, 55, 0.2);
+}
+
+.form-actions {
+    margin-top: 30px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
 }

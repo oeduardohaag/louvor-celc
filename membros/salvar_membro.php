@@ -1,5 +1,6 @@
 <?php
-require 'conexao.php';
+require "../auth/verificar_login.php";
+require '../config/conexao.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $nome   = $_POST['nome'];

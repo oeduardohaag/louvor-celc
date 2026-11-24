@@ -1,6 +1,59 @@
 document.addEventListener('DOMContentLoaded', function () {
-    
-    // --- LÓGICA DO MODAL DE DETALHES DO CULTO ---
+    const btnAddMusica = document.getElementById('btn-adicionar-musica');
+    const containerMusicas = document.getElementById('container-musicas');
+
+    if (btnAddMusica && containerMusicas) {
+        btnAddMusica.addEventListener('click', function () {
+            const index = containerMusicas.querySelectorAll('.dinamico-linha').length;
+            const primeiraLinha = containerMusicas.querySelector('.dinamico-linha');
+            const selectMusicasBase = primeiraLinha.querySelector('select[name*="[musica_id]"]');
+            const selectTomBase = primeiraLinha.querySelector('select[name*="[tom]"]');
+
+            const novaLinha = document.createElement('div');
+            novaLinha.className = 'dinamico-linha';
+
+            novaLinha.innerHTML = `
+                <select class="form-select select-musica" name="musicas[${index}][musica_id]" required>
+                    ${selectMusicasBase.innerHTML}
+                </select>
+                <select class="form-select select-tom" name="musicas[${index}][tom]" required>
+                    ${selectTomBase.innerHTML}
+                </select>
+                <div class="cifra-upload-group">
+                    <input class="input-file-cifra" type="file" name="musicas[${index}][foto]" accept="image/*" title="Foto da Cifra (Opcional)">
+                </div>
+                <button type="button" class="btn-remover-linha" onclick="removerLinha(this)">✕</button>
+            `;
+
+            novaLinha.querySelector('select[name*="[musica_id]"]').selectedIndex = 0;
+            novaLinha.querySelector('select[name*="[tom]"]').selectedIndex = 0;
+
+            containerMusicas.appendChild(novaLinha);
+        });
+    }
+
+    const btnAddMembro = document.getElementById('btn-adicionar-membro');
+    const containerMembros = document.getElementById('container-membros');
+
+    if (btnAddMembro && containerMembros) {
+        btnAddMembro.addEventListener('click', function () {
+            const primeiroSelect = containerMembros.querySelector('select[name="membros[]"]');
+            const novaLinha = document.createElement('div');
+            novaLinha.className = 'dinamico-linha';
+
+            novaLinha.innerHTML = `
+                <select class="form-select select-membro" name="membros[]">
+                    ${primeiroSelect.innerHTML}
+                </select>
+                <button type="button" class="btn-remover-linha" onclick="removerLinha(this)">✕</button>
+            `;
+
+            novaLinha.querySelector('select').selectedIndex = 0;
+            containerMembros.appendChild(novaLinha);
+        });
+    }
+
+    // Modal de detalhes e cifras na index.php
     const modal = document.getElementById('modal-culto');
     const btnFechar = document.getElementById('modal-btn-fechar');
     const cardsCulto = document.querySelectorAll('.culto-card');
@@ -21,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function () {
             containerRepertorio.innerHTML = '';
 
             if (repertorio.length === 0) {
-                containerRepertorio.innerHTML = '<p style="color: var(--text-muted);">Nenhuma música cadastrada neste culto.</p>';
+                containerRepertorio.innerHTML = '<p class="culto-secao-vazia">Nenhuma música cadastrada neste culto.</p>';
             } else {
                 repertorio.forEach(m => {
                     let htmlFoto = '';
@@ -57,53 +110,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     if (btnFechar) {
-        btnFechar.addEventListener('click', fecharModal);
+        btnFechar.addEventListener('click', () => modal.classList.remove('ativo'));
     }
 
     if (modal) {
         modal.addEventListener('click', function (e) {
-            if (e.target === modal) fecharModal();
-        });
-    }
-
-    function fecharModal() {
-        modal.classList.remove('ativo');
-    }
-
-
-    // --- LÓGICA DE FILTRAGEM (FRONTEND SIMULADO) ---
-    const formFiltros = document.getElementById('form-filtros');
-    const inputCulto = document.getElementById('filtro-culto');
-    const inputMembro = document.getElementById('filtro-membro');
-    const btnLimpar = document.getElementById('btn-limpar-filtros');
-
-    if (formFiltros) {
-        formFiltros.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const termoCulto = inputCulto.value.toLowerCase().trim();
-            const termoMembro = inputMembro.value.toLowerCase().trim();
-
-            cardsCulto.forEach(card => {
-                const nomeCulto = card.dataset.nome.toLowerCase();
-                const escalaMembros = card.dataset.escala.toLowerCase();
-
-                const bateCulto = !termoCulto || nomeCulto.includes(termoCulto);
-                const bateMembro = !termoMembro || escalaMembros.includes(termoMembro);
-
-                if (bateCulto && bateMembro) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        });
-    }
-
-    if (btnLimpar) {
-        btnLimpar.addEventListener('click', function () {
-            inputCulto.value = '';
-            inputMembro.value = '';
-            cardsCulto.forEach(card => card.style.display = 'block');
+            if (e.target === modal) modal.classList.remove('ativo');
         });
     }
 });
+
+function removerLinha(botao) {
+    const linha = botao.parentElement;
+    const container = linha.parentElement;
+    if (container.querySelectorAll('.dinamico-linha').length > 1) {
+        linha.remove();
+    }
+}

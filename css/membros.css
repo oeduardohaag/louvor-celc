@@ -1,12 +1,119 @@
 /* ----------------------------------------------------
-   Estilos da Página de Membros - Louvor CELC
+   Layout e Cabeçalho - Gestão de Membros
 ---------------------------------------------------- */
-p {
-    font-size: 0.9rem;
-    color: var(--text-main);
-    margin-bottom: 8px;
+.membros-container {
+    padding: 32px 20px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
+.membros-form-container {
+    padding: 32px 20px;
+    max-width: 650px;
+    margin: 0 auto;
+}
+
+.page-header {
+    margin-bottom: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+}
+
+.page-title {
+    font-size: 1.5rem;
+    color: var(--text-main);
+    margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* ----------------------------------------------------
+   Alertas
+---------------------------------------------------- */
+.alert {
+    padding: 12px 16px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.alert-registered {
+    background-color: rgba(34, 197, 94, 0.12);
+    border: 1px solid rgba(34, 197, 94, 0.35);
+    color: #4ade80;
+}
+
+.alert-updated {
+    background-color: rgba(34, 132, 197, 0.12);
+    border: 1px solid rgba(34, 151, 197, 0.35);
+    color: #4aafde;
+}
+
+.alert-deleted {
+    background-color: rgba(197, 34, 34, 0.12);
+    border: 1px solid rgba(197, 34, 34, 0.35);
+    color: #de4a4a;
+}
+
+.alert-danger {
+    background-color: rgba(220, 38, 38, 0.12);
+    border: 1px solid rgba(220, 38, 38, 0.35);
+    color: #f87171;
+}
+
+/* ----------------------------------------------------
+   Botões Globais da Seção
+---------------------------------------------------- */
+.btn-primary-gold {
+    background-color: var(--primary-gold, #d4af37);
+    color: #000;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.9rem;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.2s ease;
+}
+
+.btn-primary-gold:hover {
+    opacity: 0.9;
+}
+
+.btn-cancel {
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-main);
+    background-color: transparent;
+    border: 1px solid var(--border);
+    font-size: 0.9rem;
+    transition: background-color 0.2s ease;
+}
+
+.btn-cancel:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+/* ----------------------------------------------------
+   Tabela de Membros
+---------------------------------------------------- */
 .table-container {
     background-color: var(--surface);
     border: 1px solid var(--border);
@@ -28,6 +135,7 @@ p {
     padding: 14px 16px;
     border-bottom: 1px solid var(--border);
     vertical-align: middle;
+    font-size: 0.95rem;
 }
 
 .styled-table th {
@@ -47,164 +155,60 @@ p {
     background-color: rgba(255, 255, 255, 0.015);
 }
 
-/* ----------------------------------------------------
-   Avatares e Placeholders Circulares
----------------------------------------------------- */
-.membro-avatar-container {
-    display: flex;
+.styled-table .col-actions-header {
+    text-align: right;
+    width: 185px;
+}
+
+.styled-table .col-actions {
+    text-align: right;
+}
+
+.table-actions-group {
+    display: inline-flex;
+    gap: 8px;
+    justify-content: flex-end;
     align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-}
-
-.membro-avatar {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 1px solid var(--border);
-    background-color: var(--bg-main);
-}
-
-.membro-avatar-placeholder {
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    background-color: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: var(--primary-gold, #d4af37);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.membro-avatar-placeholder svg {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
 }
 
 /* ----------------------------------------------------
-   Badge de Instrumento / Função (Padrão 100x20px)
+   Badge de Instrumento / Função
 ---------------------------------------------------- */
 .badge-instrumento {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
-    height: 20px;
+    min-width: 85px;
+    height: 30px;
+    padding: 0 10px;
     background-color: rgba(163, 112, 76, 0.2);
     color: var(--secondary-bronze, #a3704c);
     border: 1px solid rgba(163, 112, 76, 0.3);
     border-radius: 4px;
-    font-size: 0.7rem;
+    font-size: 0.85rem;
     font-weight: 600;
     text-align: center;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 4px;
 }
 
 /* ----------------------------------------------------
-   Selects Personalizados para Funções e Formulários
----------------------------------------------------- */
-.form-container select,
-.form-group select {
-    background-color: var(--bg-main) !important;
-    border: 1px solid var(--border) !important;
-    border-radius: 6px !important;
-    color: var(--text-main) !important;
-    font-size: 0.9rem !important;
-    padding: 10px 14px !important;
-    width: 100% !important;
-    outline: none !important;
-    cursor: pointer;
-    appearance: none;
-    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-    background-repeat: no-repeat;
-    background-position: right 12px center;
-    background-size: 16px;
-    padding-right: 40px;
-}
-
-.form-container select:focus,
-.form-group select:focus {
-    border-color: var(--primary-gold, #d4af37) !important;
-    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15) !important;
-}
-
-.form-container select option,
-.form-group select option {
-    background-color: var(--surface);
-    color: var(--text-main);
-    padding: 10px;
-}
-
-/* ----------------------------------------------------
-   Botões de Ação na Tabela de Membros
----------------------------------------------------- */
-.styled-table .btn-card-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 6px 12px;
-    font-size: 0.75rem;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    text-align: center;
-}
-
-/* Botão Editar (Dourado / Sutil) */
-.styled-table .btn-editar {
-    background-color: rgba(212, 175, 55, 0.1);
-    border: 1px solid rgba(212, 175, 55, 0.3);
-    color: var(--primary-gold, #d4af37);
-}
-
-.styled-table .btn-editar:hover {
-    background-color: rgba(212, 175, 55, 0.22);
-    border-color: var(--primary-gold, #d4af37);
-}
-
-/* Botão Excluir (Vermelho / Sutil) */
-.styled-table .btn-excluir {
-    background-color: rgba(220, 38, 38, 0.1);
-    border: 1px solid rgba(220, 38, 38, 0.3);
-    color: #f87171;
-}
-
-.styled-table .btn-excluir:hover {
-    background-color: rgba(220, 38, 38, 0.25);
-    border-color: #dc2626;
-}
-
-/* ----------------------------------------------------
-   Botões de Ação na Tabela de Membros (Tamanho Padronizado)
+   Botões de Ação na Tabela
 ---------------------------------------------------- */
 .styled-table .btn-card-action {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     width: 80px;
-    /* Garante que todos tenham a mesma largura fixa */
     height: 30px;
-    /* Garante a mesma altura padronizada */
     font-size: 0.75rem;
     font-weight: 600;
     border-radius: 6px;
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
-    text-align: center;
     box-sizing: border-box;
 }
 
-/* Botão Editar (Dourado / Sutil) */
 .styled-table .btn-editar {
     background-color: rgba(212, 175, 55, 0.1);
     border: 1px solid rgba(212, 175, 55, 0.3);
@@ -216,7 +220,6 @@ p {
     border-color: var(--primary-gold, #d4af37);
 }
 
-/* Botão Excluir (Vermelho / Sutil) */
 .styled-table .btn-excluir {
     background-color: rgba(220, 38, 38, 0.1);
     border: 1px solid rgba(220, 38, 38, 0.3);
@@ -229,55 +232,79 @@ p {
 }
 
 /* ----------------------------------------------------
-   Estilos para o Preview da Foto do Membro
+   Formulários de Membros (Criar / Editar)
 ---------------------------------------------------- */
-.preview-container {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    margin-top: 10px;
-    background-color: var(--bg-main);
-    border: 1px dashed var(--border);
-    padding: 16px;
-    border-radius: 8px;
-}
-
-.avatar-preview-circulo {
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 2px solid var(--primary-gold);
+.form-card {
     background-color: var(--surface);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 24px;
 }
 
-.avatar-preview-circulo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: none;
+.form-group {
+    margin-bottom: 1.15rem;
 }
 
-.avatar-preview-placeholder {
-    color: var(--primary-gold);
-    font-size: 0.75rem;
-    text-align: center;
-    padding: 4px;
-}
-
-.preview-info p {
+.form-label {
+    display: block;
     font-size: 0.85rem;
-    color: var(--text-main);
-    margin-bottom: 4px;
+    color: var(--text-muted);
+    margin-bottom: 6px;
     font-weight: 500;
 }
 
-.preview-info span {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    display: block;
+.form-input {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    padding: 10px 14px;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:focus {
+    border-color: var(--primary-gold, #d4af37);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.form-select {
+    width: 100%;
+    box-sizing: border-box;
+    background-color: var(--bg-main);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-main);
+    font-size: 0.9rem;
+    padding: 10px 40px 10px 14px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23a1a1aa' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    background-size: 16px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-select:focus {
+    border-color: var(--primary-gold, #d4af37);
+    box-shadow: 0 0 0 2px rgba(212, 175, 55, 0.15);
+}
+
+.form-select option {
+    background-color: var(--surface);
+    color: var(--text-main);
+    padding: 10px;
+}
+
+.form-actions {
+    margin-top: 28px;
+    display: flex;
+    gap: 12px;
+    border-top: 1px solid var(--border);
+    padding-top: 20px;
 }

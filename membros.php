@@ -1,11 +1,11 @@
 <?php
-// require "verificar_login.php";
+require "auth/verificar_login.php";
 include "config/conexao.php";
 
 $sql = "SELECT * FROM membros ORDER BY id DESC";
 $membros = $pdo->query($sql)->fetchAll(PDO::FETCH_ASSOC);
 
-$msg = $_GET['msg'] ?? '';
+$cadastro = $_GET['cadastro'] ?? ($_GET['msg'] ?? '');
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -31,28 +31,31 @@ $msg = $_GET['msg'] ?? '';
             <a href="musicas.php">Músicas</a>
         </div>
         <div class="nav-actions">
-            <a href="login.php" class="btn btn-danger-outline">Sair da Conta</a>
+            <a href="auth/logout.php" class="btn btn-danger-outline">Sair da Conta</a>
         </div>
     </nav>
 
-    <main class="container" style="padding: 32px 20px; max-width: 1200px; margin: 0 auto;">
+    <main class="membros-container">
 
-        <div class="page-header"
-            style="margin-bottom: 24px; display: flex; justify-content: space-between; align-items: center;">
+        <div class="page-header">
             <div>
-                <h2 style="font-size: 1.5rem; color: var(--text-main);">Gestão de Membros</h2>
-                <p style="color: var(--text-muted); font-size: 0.9rem;">Lista de integrantes do ministério, funções e
-                    instrumentos</p>
+                <h2 class="page-title">Gestão de Membros</h2>
+                <p class="page-subtitle">Lista de integrantes do ministério, funções e instrumentos</p>
             </div>
-            <a href="membros/novo_membro.php" class="btn"
-                style="background-color: var(--primary-gold); color: #000; padding: 10px 16px; border-radius: 6px; text-decoration: none; font-weight: 600; font-size: 0.9rem;">Cadastrar
-                Membro</a>
+            <a href="membros/novo_membro.php" class="btn btn-primary-gold">+ Cadastrar Membro</a>
         </div>
 
-        <?php if ($msg === 'criado'): ?>
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                ✅ Membro cadastrado com sucesso!
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Fechar"></button>
+        <?php if ($cadastro === 'ok' || $cadastro === 'criado'): ?>
+            <div class="alert alert-registered" role="alert">
+                Membro cadastrado com sucesso!
+            </div>
+        <?php elseif ($cadastro === 'atualizado'): ?>
+            <div class="alert alert-updated" role="alert">
+                Dados do membro atualizados com sucesso!
+            </div>
+        <?php elseif ($cadastro === 'removido'): ?>
+            <div class="alert alert-deleted" role="alert">
+                Membro removido com sucesso!
             </div>
         <?php endif; ?>
 
@@ -63,29 +66,36 @@ $msg = $_GET['msg'] ?? '';
                         <th>Nome</th>
                         <th>E-mail</th>
                         <th>Função / Instrumento</th>
-                        <th style="text-align: right; width: 150px;">Ações</th>
+                        <th class="col-actions-header">Ações</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($membros as $membro): ?>
+                    <?php if (empty($membros)): ?>
                         <tr>
-                            <td>
-                                <strong><?= htmlspecialchars($membro['nome'])  ?></strong>
-                            </td>
-                            <td><?= htmlspecialchars($membro['email'])  ?></td>
-                            <td>
-                                <span class="badge-instrumento"><?= htmlspecialchars($membro['função'])  ?></span>
-                            </td>
-                            <td style="text-align: right;">
-                                <a href="membros/editar_membro.php?id=<?= $membro['id'] ?>" class="btn-card-action btn-editar"
-                                    style="padding: 6px 12px; margin-bottom: 4px; display: inline-block;">Editar</a>
-                                <a href="membros/excluir_membro.php?id=<?= $membro['id'] ?>" class="btn-card-action btn-excluir"
-                                    onclick="return confirm('Deseja realmente excluir este membro?');"
-                                    style="padding: 6px 12px; display: inline-block;">Excluir</a>
-                            </td>
+                            <td colspan="4" class="page-subtitle">Nenhum membro cadastrado ainda.</td>
                         </tr>
-                    <?php endforeach; ?>
-
+                    <?php else: ?>
+                        <?php foreach ($membros as $membro): ?>
+                            <tr>
+                                <td>
+                                    <strong><?= htmlspecialchars($membro['nome']) ?></strong>
+                                </td>
+                                <td><?= htmlspecialchars($membro['email']) ?></td>
+                                <td>
+                                    <span class="badge-instrumento"><?= htmlspecialchars($membro['funcao']) ?></span>
+                                </td>
+                                <td class="col-actions">
+                                    <div class="table-actions-group">
+                                        <a href="membros/editar_membro.php?id=<?= $membro['id'] ?>"
+                                            class="btn-card-action btn-editar">Editar</a>
+                                        <a href="membros/excluir_membro.php?id=<?= $membro['id'] ?>"
+                                            class="btn-card-action btn-excluir"
+                                            onclick="return confirm('Deseja realmente excluir este membro?');">Excluir</a>
+                                    </div>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    <?php endif; ?>
                 </tbody>
             </table>
         </div>
