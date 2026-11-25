@@ -1,5 +1,18 @@
 <?php
+require "../auth/verificar_login.php";
+require_once "../config/conexao.php";
 
+$erro = '';
+
+// Carrega as músicas registradas e lista de membros do banco de dados
+$musicasCatalogo = $pdo->query("SELECT id, nome, versao FROM musicas ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
+$membrosLista    = $pdo->query("SELECT id, nome, funcao FROM membros ORDER BY nome ASC")->fetchAll(PDO::FETCH_ASSOC);
+
+// Armazena todos os tons músicas para seleção
+$tonsDisponiveis = [
+    'C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B',
+    'Cm', 'C#m', 'Dm', 'D#m', 'Em', 'Fm', 'F#m', 'Gm', 'G#m', 'Am', 'A#m', 'Bm'
+];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -21,115 +34,94 @@
             <a href="../index.php">Louvor <strong>CELC</strong></a>
         </div>
         <div class="nav-links">
-            <a href="../index.php">Cultos</a>
+            <a href="../index.php" class="active">Cultos</a>
             <a href="../membros.php">Membros</a>
+            <a href="../musicas.php">Músicas</a>
         </div>
         <div class="nav-actions">
             <a href="../index.php" class="btn btn-secondary">Voltar</a>
-            <a href="../login.php" class="btn btn-danger-outline">Sair</a>
+            <a href="../auth/logout.php" class="btn btn-danger-outline">Sair da Conta</a>
         </div>
     </nav>
 
-    <main class="container" style="padding: 32px 20px; max-width: 900px; margin: 0 auto;">
-        <div class="page-header" style="margin-bottom: 24px;">
-            <h2 style="font-size: 1.5rem; color: var(--text-main);">Criar Novo Culto</h2>
-            <p style="color: var(--text-muted); font-size: 0.9rem;">Preencha as informações, monte o repertório e escale
-                a equipe</p>
+    <main class="cultos-form-container">
+        <div class="page-header">
+            <div>
+                <h2 class="page-title">Criar Novo Culto</h2>
+                <p class="page-subtitle">Preencha as informações, monte o repertório e escale a equipe</p>
+            </div>
         </div>
 
-        <form action="#" method="POST" class="form-container"
-            style="background-color: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 24px;">
+        <?php if ($erro): ?>
+            <div class="alert alert-danger">
+                <?= htmlspecialchars($erro) ?>
+            </div>
+        <?php endif; ?>
 
-            <div class="form-group" style="margin-bottom: 1.25rem;">
-                <label for="titulo"
-                    style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Título
-                    do Culto *</label>
-                <input type="text" id="titulo" name="titulo" placeholder="Ex: Culto de Celebração, Santa Ceia..."
-                    required
-                    style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+        <form action="salvar_culto.php" method="POST" enctype="multipart/form-data" class="form-card">
+
+            <div class="form-group">
+                <label class="form-label" for="titulo">Título do Culto *</label>
+                <input class="form-input" type="text" id="titulo" name="titulo"
+                    placeholder="Ex: Culto de Celebração, Santa Ceia..." required>
             </div>
 
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-                <div class="form-group" style="margin-bottom: 1.25rem;">
-                    <label for="data"
-                        style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Data
-                        *</label>
-                    <input type="date" id="data" name="data" required
-                        style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+            <div class="form-grid-2">
+                <div class="form-group">
+                    <label class="form-label" for="data">Data *</label>
+                    <input class="form-input" type="date" id="data" name="data" required>
                 </div>
-                <div class="form-group" style="margin-bottom: 1.25rem;">
-                    <label for="horario"
-                        style="display: block; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 6px; font-weight: 500;">Horário
-                        *</label>
-                    <input type="time" id="horario" name="horario" required
-                        style="width: 100%; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+                <div class="form-group">
+                    <label class="form-label" for="horario">Horário *</label>
+                    <input class="form-input" type="time" id="horario" name="horario" required>
                 </div>
             </div>
 
-            <div class="secao-titulo-form"
-                style="font-size: 1rem; color: var(--primary-gold); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 16px 0 8px 0; font-weight: 600;">
-                Repertório de Músicas</div>
+            <div class="secao-titulo-form">Repertório de Músicas</div>
             <div id="container-musicas">
-                <div class="dinamico-linha" style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                    <input type="text" name="musicas[0][nome]" placeholder="Nome da música" required
-                        style="flex: 2; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                    <input type="text" name="musicas[0][versao]" placeholder="Versão da Música"
-                        style="flex: 2; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
-                    <select name="musicas[0][tom]"
-                        style="flex: 1; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+                <div class="dinamico-linha">
+                    <select class="form-select select-musica" name="musicas[0][musica_id]" required>
+                        <option value="" disabled selected>Selecione a música</option>
+                        <?php foreach ($musicasCatalogo as $m): ?>
+                            <option value="<?= $m['id'] ?>">
+                                <?= htmlspecialchars($m['nome']) ?><?= !empty($m['versao']) ? ' (' . htmlspecialchars($m['versao']) . ')' : '' ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <select class="form-select select-tom" name="musicas[0][tom]" required>
                         <option value="" disabled selected>Tom</option>
-                        <option value="C">C</option>
-                        <option value="C#">C#</option>
-                        <option value="D">D</option>
-                        <option value="D#">D#</option>
-                        <option value="E">E</option>
-                        <option value="F">F</option>
-                        <option value="F#">F#</option>
-                        <option value="G">G</option>
-                        <option value="G#">G#</option>
-                        <option value="A">A</option>
-                        <option value="A#">A#</option>
-                        <option value="B">B</option>
-                        <option value="Em">Em</option>
-                        <option value="Am">Am</option>
-                        <option value="Bm">Bm</option>
+                        <?php foreach ($tonsDisponiveis as $t): ?>
+                            <option value="<?= $t ?>"><?= $t ?></option>
+                        <?php endforeach; ?>
                     </select>
-                    <button type="button" class="btn-remover-linha" onclick="removerLinha(this)"
-                        style="background-color: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #f87171; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-weight: 600;">✕</button>
+                    <div class="cifra-upload-group">
+                        <input class="input-file-cifra" type="file" name="musicas[0][foto]" accept="image/*"
+                            title="Foto da Cifra (Opcional)">
+                    </div>
+                    <button type="button" class="btn-remover-linha" onclick="removerLinha(this)">✕</button>
                 </div>
             </div>
-            <button type="button" id="btn-adicionar-musica" class="btn btn-secondary"
-                style="margin-top: 8px; font-size: 0.8rem; padding: 6px 12px; background: rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.3); color: var(--primary-gold); border-radius: 6px; cursor: pointer;">+
-                Adicionar Música</button>
+            <button type="button" id="btn-adicionar-musica" class="btn-adicionar-linha">+ Adicionar Música</button>
 
-            <div class="secao-titulo-form"
-                style="font-size: 1rem; color: var(--primary-gold); border-bottom: 1px solid var(--border); padding-bottom: 8px; margin: 16px 0 8px 0; font-weight: 600;">
-                Escala de Membros</div>
+            <div class="secao-titulo-form">Escala de Membros</div>
             <div id="container-membros">
-                <div class="dinamico-linha" style="display: flex; gap: 10px; align-items: center; margin-bottom: 10px;">
-                    <select name="membros[]"
-                        style="flex: 1; background-color: var(--bg-main); border: 1px solid var(--border); border-radius: 6px; color: var(--text-main); padding: 10px 14px; font-size: 0.9rem; outline: none;">
+                <div class="dinamico-linha">
+                    <select class="form-select select-membro" name="membros[]">
                         <option value="" disabled selected>Selecione o membro e função</option>
-                        <option value="1">João Silva - Violão</option>
-                        <option value="2">Maria Souza - Vocal</option>
-                        <option value="3">Lucas Mendes - Bateria</option>
-                        <option value="4">Carlos Eduardo - Teclado</option>
+                        <?php foreach ($membrosLista as $mb): ?>
+                            <option value="<?= $mb['id'] ?>">
+                                <?= htmlspecialchars($mb['nome']) ?> - <?= htmlspecialchars($mb['funcao']) ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
-                    <button type="button" class="btn-remover-linha" onclick="removerLinha(this)"
-                        style="background-color: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); color: #f87171; padding: 10px 14px; border-radius: 6px; cursor: pointer; font-weight: 600;">✕</button>
+                    <button type="button" class="btn-remover-linha" onclick="removerLinha(this)">✕</button>
                 </div>
             </div>
-            <button type="button" id="btn-adicionar-membro" class="btn btn-secondary"
-                style="margin-top: 8px; font-size: 0.8rem; padding: 6px 12px; background: rgba(212,175,55,0.1); border-color: rgba(212,175,55,0.3); color: var(--primary-gold); border-radius: 6px; cursor: pointer;">+
-                Adicionar Membro</button>
+            <button type="button" id="btn-adicionar-membro" class="btn-adicionar-linha">+ Adicionar Membro</button>
 
-            <div class="form-actions"
-                style="margin-top: 30px; display: flex; gap: 12px; border-top: 1px solid var(--border); padding-top: 20px;">
-                <button type="submit" class="btn btn-primary"
-                    style="background-color: var(--primary-gold); color: #000; padding: 10px 20px; border-radius: 6px; font-weight: 600; border: none; cursor: pointer;">Cadastrar
-                    Culto</button>
-                <a href="../index.php" class="btn btn-secondary"
-                    style="padding: 10px 20px; border-radius: 6px; text-decoration: none; display: inline-flex; align-items: center; justify-content: center; color: var(--text-main);">Cancelar</a>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary-gold">Cadastrar Culto</button>
+                <a href="../index.php" class="btn btn-cancel">Cancelar</a>
             </div>
 
         </form>

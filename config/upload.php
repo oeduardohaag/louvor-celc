@@ -1,6 +1,6 @@
 <?php
 
-function salvarFotoAluno(array $arquivo): array
+function salvarImagemCifra(array $arquivo): array
 {
     $maxBytes = 2 * 1024 * 1024;
 
@@ -104,14 +104,14 @@ function salvarFotoAluno(array $arquivo): array
 }
 
 // Apaga o arquivo da foto no disco (se existir)
-function apagarFotoAluno(?string $arquivo): void
+function apagarFotoCifra(?string $arquivo): void
 {
     if ($arquivo === null || $arquivo === '') {
         return;
     }
 
     // basename() impede caminhos como ../../config.php
-    $caminho = __DIR__ . '/uploads/alunos/' . basename($arquivo);
+    $caminho = __DIR__ . '../uploads/cifras/' . basename($arquivo);
 
     if (is_file($caminho)) {
         unlink($caminho);
