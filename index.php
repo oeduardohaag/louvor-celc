@@ -6,7 +6,7 @@ $buscaCulto = trim($_GET['culto'] ?? '');
 $buscaMembro = trim($_GET['membro'] ?? '');
 $sucesso = $_GET['sucesso'] ?? '';
 
-$sql = "SELECT DISTINCT c.* 
+$sql = "SELECT c.* 
         FROM cultos c
         LEFT JOIN culto_membros cm ON c.id = cm.culto_id
         LEFT JOIN membros m ON cm.membro_id = m.id
@@ -15,7 +15,7 @@ $sql = "SELECT DISTINCT c.*
 $params = [];
 
 if ($buscaCulto !== '') {
-    $sql .= " AND c.nome LIKE ?";
+    $sql .= " AND c.titulo LIKE ?";
     $params[] = "%$buscaCulto%";
 }
 
@@ -104,7 +104,7 @@ foreach ($stmtMembros->fetchAll(PDO::FETCH_ASSOC) as $membro) {
                 <h2 class="page-title">Gestão de Cultos</h2>
                 <p class="page-subtitle">Acompanhe os repertórios e a escala dos próximos cultos</p>
             </div>
-            <a href="cultos/criar_culto.php" class="btn btn-primary-gold">+ Criar Novo Culto</a>
+            <a href="cultos/novo_culto.php" class="btn btn-primary-gold">Criar Novo Culto</a>
         </div>
 
         <?php if ($sucesso === 'criado'): ?>

@@ -39,10 +39,10 @@ $msg = $_GET['msg'] ?? ($_GET['musica'] ?? '');
 
         <div class="page-header">
             <div>
-                <h2 class="page-title">Gerenciamento de Músicas</h2>
-                <p class="page-subtitle">Lista de nomes das músicas e versões</p>
+                <h2 class="page-title">Repertório de Músicas</h2>
+                <p class="page-subtitle">Lista com nomes das músicas e versões que tocamos durante os cultos</p>
             </div>
-            <a href="musicas/nova_musica.php" class="btn btn-primary-gold">+ Registrar Música</a>
+            <a href="musicas/nova_musica.php" class="btn btn-primary-gold">Registrar Nova Música</a>
         </div>
 
         <?php if ($msg === 'criado' || $msg === 'registrada'): ?>

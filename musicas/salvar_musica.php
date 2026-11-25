@@ -2,7 +2,7 @@
 require "../auth/verificar_login.php";
 include "../config/conexao.php";
 
-// Pega os dados enviados pelo formulário (POST)
+// Pega os dados enviados pelo formulário
 $nome  = $_POST['nome'];
 $versao = $_POST['versao'];
 

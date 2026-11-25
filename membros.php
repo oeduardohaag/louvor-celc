@@ -40,9 +40,9 @@ $cadastro = $_GET['cadastro'] ?? ($_GET['msg'] ?? '');
         <div class="page-header">
             <div>
                 <h2 class="page-title">Gestão de Membros</h2>
-                <p class="page-subtitle">Lista de integrantes do ministério, funções e instrumentos</p>
+                <p class="page-subtitle">Lista de integrantes do ministério com suas respectivas funções principais</p>
             </div>
-            <a href="membros/novo_membro.php" class="btn btn-primary-gold">+ Cadastrar Membro</a>
+            <a href="membros/novo_membro.php" class="btn btn-primary-gold">Cadastrar Membro</a>
         </div>
 
         <?php if ($cadastro === 'ok' || $cadastro === 'criado'): ?>
